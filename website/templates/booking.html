@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<body style="background-color:#e7f2ff; height: 100vh;">
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-5 col-md-7 col-sm-9 col-xs-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center fs-4">
+                        BOOKING INFO
+                    </h3>
+                    <form role="form" method="POST">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <!-- <input type="hidden" class="form-control" id="txt" name="txt" required> -->
+                            <input type="text" class="form-control" id="txtusername" name="txtusername"
+                                value="{{ user.username }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="txtemail" name="txtemail"
+                                value="{{ user.email }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="txtaddress" name="txtaddress"
+                                value="{{ user.address }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="event" class="form-label">Event</label>
+                            <input type="text" class="form-control" id="txtevent" name="txtevent"
+                                value="{{ booking.title }}" readonly required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="venue" class="form-label">Venue</label>
+                            <input type="text" class="form-control" id="txtvenue" name="txtvenue"
+                                value="{{ booking.venue }}" readonly required>
+                        </div>
+                        <!-- <div class="mb-3">
+                            <label for="bookDate" class="form-label">Booking Date</label>
+                            <input type="date" class="form-control" id="txt_book_date" name="txt_book_date" required>
+                        </div> -->
+                        <div class="row mt-3">
+                            <div class="col-4 d-flex">
+                                <div class="card-text fs-5 fw-bold">
+                                    TOTAL PRICE
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 d-flex">
+                                <div class="card-text">
+                                    250.000 IDR
+                                </div>
+                            </div>
+                        </div>
+                        {% if current_user.is_verif != 1 %}
+                        <div class="row justify-content-center">
+                            <div class="col-10 d-flex justify-content-center">
+                                <div class="card-text mt-3">
+                                    <a data-toggle="modal" data-target="#exampleModal" href="#exampleModal">Verifikasi
+                                    </a>akunmu untuk pesan tiket
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="row justify-content-center mt-3">
+                            <div class="col d-flex ">
+                                <button type="submit" class="btn btn-primary py-2 px-5 rounded-2">PAY NOW</button>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Privacy & Policy</h1>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="fs-bold">
+                        Syarat & Ketentuan penggunaan dan kebijakan privasi X-Ticket App
+                    </h2>
+                    <p>
+                        Syarat & Ketentuan penggunaan dan kebijakan privasi X-Ticket App merupakan ketentuan yang
+                        harus dibaca, dipahami, dan disetujui oleh pengguna sebelum mengakses atau menggunakan aplikasi
+                        X-Ticket App
+
+                    </p>
+                    <div class="form-check ms-2">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Setuju & Lanjutkan
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    <a class="btn btn-primary" href="{{ url_for('views.vfdataset_page', id=current_user.id) }}">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
