@@ -40,15 +40,23 @@
         document.addEventListener("DOMContentLoaded", function () {
             const videoElement = document.getElementById('capture');
 
-            // Menggunakan getUserMedia untuk mengakses kamera
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(function (stream) {
-                    videoElement.srcObject = stream;
+            const URL_BACKEND = "/vfdataset_page/"; // Endpoint yang sama di Flask
+
+            fetch(URL_BACKEND)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.blob(); // Mengambil blob dari respons
                 })
-                .catch(function (error) {
-                    console.error('Error accessing media devices.', error);
+                .then(blob => {
+                    videoElement.src = URL.createObjectURL(blob); // Membuat URL objek untuk blob
+                })
+                .catch(error => {
+                    console.error('Error fetching video stream:', error);
                 });
         });
+
     </script>
 
     <!-- <script>
@@ -67,80 +75,6 @@
         }
 
 
-    </script> -->
-
-    <!-- <script>
-        var videoElem = document.getElementById("video");
-        var btnElm = document.getElementById("scan");
-        var frScan = document.getElementById("fr-page");
-        var isPlaying = !!videoElem.srcObject;
-        function camera() {
-            if (!isPlaying) {
-                cameraon();
-            } else {
-                cameraoff();
-            }
-        }
-
-        function cameraon() {
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices
-                    .getUserMedia({
-                        video: true
-                    })
-                    .then(function (stream) {
-                        videoElem.srcObject = stream;
-                        frScan.attr("src", "{{ url_for('admin.video_feed') }}");
-                        videoElem.play();
-                    })
-                    .then(() => {
-                        isPlaying = true;
-                        btnElm.innerText = "Stop Scan";
-                    });
-            }
-        }
-
-        function cameraoff() {
-            const stream = videoElem.srcObject;
-            if (stream) {
-                const tracks = stream.getTracks();
-
-                tracks.forEach(function (track) {
-                    track.stop();
-                });
-
-                videoElem.srcObject = null;
-                frScan.attr("src", "");
-                isPlaying = false;
-                btnElm.innerText = "Start Scan";
-            }
-        }
-
-
-        // function camera() {
-        //     // get the clock
-        //     var video_scan = document.getElementById('video');
-
-        //     // get the current value of the clock's display property
-        //     var displaySetting = video_scan.style.display;
-
-        //     // also get the clock button, so we can change what it says
-        //     var scan = document.getElementById('scan');
-
-        //     // now toggle the clock and the button text, depending on current state
-        //     if (displaySetting == 'block') {
-        //         // clock is visible. hide it
-        //         video_scan.style.display = 'none';
-        //         // change button text
-        //         scan.innerText = 'Start scan';
-        //     }
-        //     else {
-        //         // clock is hidden. show it
-        //         video_scan.style.display = 'block';
-        //         // change button text
-        //         scan.innerText = 'Stop Scan';
-        //     }
-        // }
     </script> -->
 
 

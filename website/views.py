@@ -38,7 +38,7 @@ def generate_dataset(nbr):
             cropped_face = img[y:y + h, x:x + w]
         return cropped_face
 
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
 
     mycursor.execute("select ifnull(max(img_id), 102) from images")
     row = mycursor.fetchone()
@@ -67,6 +67,7 @@ def generate_dataset(nbr):
 
             frame = cv2.imencode('.jpg', face)[1].tobytes()
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            # print(img_id)
 
             if cv2.waitKey(1) == 13 or int(img_id) == int(max_imgid):
                 break
@@ -171,7 +172,7 @@ def train_classifier(nbr):
 
 @views.route('/vfdataset_page/<id>')
 @login_required
-async def vfdataset_page(id):
+def vfdataset_page(id):
     return render_template('verification.html', id=id)
     # return web.FileResponse('verification.html', id=id)
 
