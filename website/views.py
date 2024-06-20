@@ -38,7 +38,7 @@ def generate_dataset(nbr):
             cropped_face = img[y:y + h, x:x + w]
         return cropped_face
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     mycursor.execute("select ifnull(max(img_id), 102) from images")
     row = mycursor.fetchone()
